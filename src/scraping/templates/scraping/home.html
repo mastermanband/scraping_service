@@ -3,28 +3,17 @@
 {% block title %} Homepage {% endblock %}
 
 {% block content %}
-    {% for obj in obj_list %}
-        <div class="card my-3">
-          <h5 class="card-header"><a href="{{ obj.url }}"> {{ obj.title }} </a></h5>
-          <div class="card-body">
-              <h3>{{ obj.company }}</h3>
-            <p class="card-text">{{ obj.description }}</p>
-              <p>{{ obj.city.name }} | {{ obj.language.name }} | <small>{{ obj.timestamp|date:'d/m/Y' }}</small></p>
-          </div>
+    <div class="row">
+        <div class="col">
+            <h2 class="text-center my-3">Сервис по сбору и рассылке вакансий</h2>
         </div>
-        <p></p>
-        <p></p>
-        {% empty %}
-        <div class="col-md-6 mx-auto">
-            <h3>По Вашему запросу ничего не найдено</h3>
-        </div>
-
-    {% endfor %}
+    </div>
 
     <div class="row">
-        <div class="col-md-6 mx-auto">
-        <form method="GET" action="">
-            <div class="mb-3">
+        <div class="col-md-8 mx-auto">
+            <h4 class="my-2">Для просмотра доступных вакансий, заполните форму по одному из полей (либо город, либо яп)</h4>
+        <form method="GET" action="{% url 'list' %}">
+            <div class="form-group">
                 {{ form.as_p }}
             </div>
             <button type="submit" class="btn btn-primary">Поиск</button>
