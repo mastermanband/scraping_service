@@ -5,81 +5,85 @@
 {% block content %}
     {% for obj in obj_list %}
         <div class="card my-3">
-          <h5 class="card-header"><a href="{{ obj.url }}"> {{ obj.title }} </a></h5>
-          <div class="card-body">
-              <h3>{{ obj.company }}</h3>
-            <p class="card-text">{{ obj.description }}</p>
-              <p>{{ obj.city.name }} | {{ obj.language.name }} | <small>{{ obj.timestamp|date:'d/m/Y' }}</small></p>
-          </div>
+            <h5 class="card-header"><a href="{{ obj.url }}"> {{ obj.title }} </a></h5>
+            <div class="card-body">
+                <h3>{{ obj.company }}</h3>
+                <p class="card-text">{{ obj.description }}</p>
+                <p>{{ obj.city.name }} | {{ obj.language.name }} | <small>{{ obj.timestamp|date:'d/m/Y' }}</small></p>
+            </div>
         </div>
         <p></p>
         <p></p>
-        {% empty %}
+    {% empty %}
         <div class="col-md-6 mx-auto">
             <h3>По Вашему запросу ничего не найдено</h3>
         </div>
 
     {% endfor %}
-    
 
-    {% if obj_list%}
+
+    {% if obj_list %}
         <div class="row">
             <div class="col">
 
-            <nav aria-label="Page navigation example">
-                  <ul class="pagination">
-                      {% if obj_list.has_previous %}
+                <nav aria-label="Page navigation example">
+                    <ul class="pagination">
+                        {% if obj_list.has_previous %}
                             <li class="page-item">
-                                  <a class="page-link" href="?city={{ city }}&language={{ language }}&page=1" aria-label="Previous">
+                                <a class="page-link" href="?city={{ city }}&language={{ language }}&page=1"
+                                   aria-label="Previous">
                                     <span aria-hidden="true">&laquo;</span>
-                                  </a>
+                                </a>
                             </li>
                         {% endif %}
 
 
-                  {% for page in obj_list.paginator.page_range %}
-                      <li class="page-item {% if page == obj_list.number %} active {% endif %}">
-                          <a class="page-link" href="?city={{ city }}&language={{ language }}&page={{ page }}">{{ page }}</a>
-                      </li>
-                  {% endfor %}
-                  {% if obj_list.has_next %}
-                        <li class="page-item">
-                              <a class="page-link" href="?city={{ city }}&language={{ language }}&page={{ obj_list.next_page_number }}" aria-label="Next">
-                                <span aria-hidden="true">&raquo;</span>
-                              </a>
-                        </li>
-                  {% endif %}
-                  </ul>
-            </nav>
-{#                <div class="pagination">#}
-{#                    <span class="step-links">#}
-{#                        {% if obj_list.has_previous %}#}
-{#                            <a href="?city={{ city }}&language={{ language }}&page=1">&laquo; first</a>#}
-{#                            <a href="?city={{ city }}&language={{ language }}&page={{ obj_list.previous_page_number }}">previous</a>#}
-{#                        {% endif %}#}
-{##}
-{#                        <span class="current">#}
-{#                            Page {{ obj_list.number }} of {{ obj_list.paginator.num_pages }}.#}
-{#                        </span>#}
-{##}
-{#                        {% if obj_list.has_next %}#}
-{#                            <a href="?city={{ city }}&language={{ language }}&page={{ obj_list.next_page_number }}">next</a>#}
-{#                            <a href="?city={{ city }}&language={{ language }}&page={{ obj_list.paginator.num_pages }}">last &raquo;</a>#}
-{#                        {% endif %}#}
-{#                    </span>#}
-{#                </div>#}
+                        {% for page in obj_list.paginator.page_range %}
+                            <li class="page-item {% if page == obj_list.number %} active {% endif %}">
+                                <a class="page-link"
+                                   href="?city={{ city }}&language={{ language }}&page={{ page }}">{{ page }}</a>
+                            </li>
+                        {% endfor %}
+                        {% if obj_list.has_next %}
+                            <li class="page-item">
+                                <a class="page-link"
+                                   href="?city={{ city }}&language={{ language }}&page={{ obj_list.next_page_number }}"
+                                   aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </nav>
+                {#                <div class="pagination">#}
+                {#                    <span class="step-links">#}
+                {#                        {% if obj_list.has_previous %}#}
+                {#                            <a href="?city={{ city }}&language={{ language }}&page=1">&laquo; first</a>#}
+                {#                            <a href="?city={{ city }}&language={{ language }}&page={{ obj_list.previous_page_number }}">previous</a>#}
+                {#                        {% endif %}#}
+                {##}
+                {#                        <span class="current">#}
+                {#                            Page {{ obj_list.number }} of {{ obj_list.paginator.num_pages }}.#}
+                {#                        </span>#}
+                {##}
+                {#                        {% if obj_list.has_next %}#}
+                {#                            <a href="?city={{ city }}&language={{ language }}&page={{ obj_list.next_page_number }}">next</a>#}
+                {#                            <a href="?city={{ city }}&language={{ language }}&page={{ obj_list.paginator.num_pages }}">last &raquo;</a>#}
+                {#                        {% endif %}#}
+                {#                    </span>#}
+                {#                </div>#}
             </div>
         </div>
     {% endif %}
 
-{#    <div class="row">#}
-{#        <div class="col-md-6 mx-auto">#}
-{#        <form method="GET" action="{% url 'list' %}">#}
-{#            <div class="mb-3">#}
-{#                {{ form.as_p }}#}
-{#            </div>#}
-{#            <button type="submit" class="btn btn-primary">Поиск</button>#}
-{#        </form>#}
-{#        </div>#}
-{#    </div>#}
+    {#    <div class="row">#}
+    {#        <div class="col-md-6 mx-auto">#}
+    {#        <form method="GET" action="{% url 'list' %}">#}
+    {#            <div class="mb-3">#}
+    {#                {{ form.as_p }}#}
+    {#            </div>#}
+    {#            <button type="submit" class="btn btn-primary">Поиск</button>#}
+    {#        </form>#}
+    {#        </div>#}
+    {#    </div>#}
 {% endblock %}

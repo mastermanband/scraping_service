@@ -2,6 +2,7 @@
 import codecs
 import os
 import sys
+import datetime as dt
 
 from django.contrib.auth import get_user_model
 from django.db import DatabaseError
@@ -22,8 +23,7 @@ User = get_user_model()
 
 
 parsers = ((rabota, 'rabota'),
-           (hh,
-            'hh'),
+           (hh, 'hh'),
            (work_city, 'work_city'),
            )
 jobs, errors = [], []
@@ -40,14 +40,15 @@ def get_urls(_settings):
 	url_dct = {(q['city_id'], q['language_id']): q['url_data'] for q in qs}
 	urls = []
 	for pair in _settings:
-		tmp = {'city': pair[0], 'language': pair[1], 'url_data': url_dct[pair]}
-		urls.append(tmp)
+		if pair in url_dct:
+			tmp = {'city': pair[0], 'language': pair[1], 'url_data': url_dct[pair]}
+			urls.append(tmp)
 	return urls
 
 
 async def main(value):
 	func, url, city, language = value
-	job, err = await loop.run_in_executor(None, func, url, city, language)
+	[job, err] = await loop.run_in_executor(None, func, url, city, language)
 	errors.extend(err)
 	jobs.extend(job)
 
@@ -78,7 +79,13 @@ for job in jobs:
 		pass
 
 if errors:
-	er = Error(data=errors).save()
+	qs = Error.objects.filter(timestamp=dt.date.today())
+	if qs.exists():
+		err = qs.first()
+		err.data.upgrade({'errors': errors})
+		err.save()
+	else:
+		er = Error(data=f'errors: {errors}').save()
 # h = codecs.open('work.txt', 'w', 'utf-8')
 # h.write(str(jobs))
 # h.close()

@@ -7,12 +7,12 @@
     <div class="row">
         <div class="col-md-8 mx-auto">
             <h4 class="my-2">Создание нового пользователя</h4>
-        <form method="POST" action="">{% csrf_token %}
-            <div class="form-group">
-                {{ form.as_p }}
-            </div>
-            <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
-        </form>
+            <form method="POST" action="">{% csrf_token %}
+                <div class="form-group">
+                    {{ form.as_p }}
+                </div>
+                <button type="submit" class="btn btn-primary">Зарегестрироваться</button>
+            </form>
         </div>
     </div>
 {% endblock %}
